@@ -8,29 +8,32 @@
 
 import UIKit
 
-extension String {
-    func size(withSystemFontSize pointSize: CGFloat) -> CGSize {
-        return (self as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: pointSize)])
-    }
-}
-
-
-//Extension taken from https://medium.com/@tstenerson/lets-make-a-line-chart-in-swift-3-5e819e6c1a00
-extension CGPoint {
-    func adding(x: CGFloat) -> CGPoint { return CGPoint(x: self.x + x, y: self.y) }
-    func adding(y: CGFloat) -> CGPoint { return CGPoint(x: self.x, y: self.y + y) }
-}
-
 class Line: UIView {
-    let lineLayer = CAShapeLayer()
-    let dotLayer = CAShapeLayer()
     
-    var ChartTransform: CGAffineTransform?
+    // used Roberto Viana's youtube video https://www.youtube.com/watch?v=9sJxtzTo8W0 to learn how to use UIBezierPath and basic methods for drawing lines
     
-    @IBInspectable var lineColor: UIColor = UIColor.black {
-        didSet {
-            lineLayer.strokeColor = lineColor.cgColor
+    var myPoints = [[CGFloat]]()
+   
+    var myLine = UIBezierPath()
+    
+    func graph() {
+        myPoints.append([])
+        myPoints.append([])
+        myPoints[0].append(bounds.width/2)
+        myPoints[0].append(bounds.height/2)
+        myPoints[1].append(bounds.width)
+        myPoints[1].append(bounds.height)
+        myLine.move(to: .init(x:0, y: bounds.height/2))
+        for point in myPoints {
+            myLine.addLine(to: .init(x: point[0], y: point[1]))
         }
+        
+        UIColor.red.setStroke()
+        myLine.lineWidth = 2
+        myLine.stroke()
     }
 
+    override func draw(_ rect: CGRect) {
+        graph()
+    }
 }
