@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 class Line: UIView {
     
@@ -16,6 +17,23 @@ class Line: UIView {
    
     var myLine = UIBezierPath()
     
+    func getJsonFromUrl(){
+        //creating a NSURL
+        let url = NSURL(string: "https://cloud.iexapis.com/stable/stock/aapl/chart?token=sk_5b18d8815df14e43a9e8ba4f8ab693db")
+        
+        //fetching the data from the url
+        URLSession.shared.dataTask(with: (url as URL?)!, completionHandler: {(data, response, error) -> Void in
+            
+            
+        }).resume()
+    }
+    
+    //TODO LIST:
+    //Probably change it so only Y is taken, rather than X and Y, as X will end up just being every day for stock market and thus will can just be bounds.width/myPoints.count
+    //Make JSON work, taking it from a URL, and use IEXCloud's API (https://iexcloud.io/console/tokens) to get data for each stock (Example for Apple stock of last month: https://cloud.iexapis.com/stable/stock/aapl/quote?token=sk_5b18d8815df14e43a9e8ba4f8ab693db
+    //Add 7 or so companies, such as Apple Microsoft etc. and make each a different color
+    //Add background which shows legend, x and y grid, etc
+
     func graph() {
         myPoints.append([])
         myPoints.append([])
