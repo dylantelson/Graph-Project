@@ -27,18 +27,26 @@ class Line: UIView {
     //Add 7 or so companies, such as Apple Microsoft etc. and make each a different color
     //Add background which shows legend, x and y grid, etc
     
+    
+    //This doesn't seem to be working. When I asked on a swift help IRC how to create a subview programmatically, they said this:
+    //Get an IBOutlet to a stack view that is where you want your thingie to be, create your view by calling init ( Line(), Line(frame: .zero) or whatever init you added), set all the properties you want, and then call stackView.addArrangedSubview(yourGraph), all on main thread
     func redraw() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.async {
+            print(self.bounds)
+            self.frame = CGRect(x: 100 , y: 100, width: 100, height: 100)
+            print(self.bounds)
             self.setNeedsDisplay()
         }
     }
 
     func graph() {
-        
+        self.frame = CGRect(x: 100 , y: 100, width: 100, height: 100)
+        print(self.bounds)
         Points.myPoints.append(50)
         Points.myPoints.append(150)
         Points.myPoints.append(20)
         Points.myPoints.append(50)
+        
         myLine.move(to: .init(x:0, y: Int(Points.myPoints[0])))
         for n in 1...Points.myPoints.count-1 {
             myLine.addLine(to: .init(x: n * 30, y: Int(Points.myPoints[n])))
@@ -49,17 +57,8 @@ class Line: UIView {
         myLine.stroke()
     }
 
-    var test = 0
     override func draw(_ rect: CGRect) {
-        if(test == 0){
-            test = test + 1
-            return
-        }
         print("wow")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.graph()
-            //        }
-        //self.graph()
+        self.graph()
     }
-}
 }
