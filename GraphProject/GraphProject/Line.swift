@@ -7,13 +7,34 @@
 //
 
 struct Points {
-    static var myPoints = [Float]()
+    static var myPoints = [[Float](), [Float](), [Float](), [Float](), [Float](), [Float]()]
 }
 
 import UIKit
 import Foundation
 
 class Line: UIView {
+    
+    public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    // #2
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+    }
+    
+    // #3
+    public convenience init(image: UIImage, title: String) {
+        self.init(frame: .zero)
+    }
+    
+    private func setupView() {
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        // Create, add and layout the children views ..
+    }
     
    // var myPoints = [[CGFloat]]()
     
@@ -30,6 +51,7 @@ class Line: UIView {
     
     //This doesn't seem to be working. When I asked on a swift help IRC how to create a subview programmatically, they said this:
     //Get an IBOutlet to a stack view that is where you want your thingie to be, create your view by calling init ( Line(), Line(frame: .zero) or whatever init you added), set all the properties you want, and then call stackView.addArrangedSubview(yourGraph), all on main thread
+    //Oh, and you might or might not have to set .translatesAutoresizingMaskToConstraints to false if you're making Line from code
     func redraw() {
         DispatchQueue.main.async {
             print(self.bounds)
@@ -40,18 +62,14 @@ class Line: UIView {
     }
 
     func graph() {
-        self.frame = CGRect(x: 100 , y: 100, width: 100, height: 100)
-        print(self.bounds)
-        Points.myPoints.append(50)
-        Points.myPoints.append(150)
-        Points.myPoints.append(20)
-        Points.myPoints.append(50)
+        //self.frame = CGRect(x: 100 , y: 100, width: 100, height: 100)
         
-        myLine.move(to: .init(x:0, y: Int(Points.myPoints[0])))
-        for n in 1...Points.myPoints.count-1 {
-            myLine.addLine(to: .init(x: n * 30, y: Int(Points.myPoints[n])))
+        for n in 0...Points.myPoints.count-1 {
+            myLine.move(to: .init(x:0, y: Int(Points.myPoints[n][0]) - 150))
+            for m in 1...Points.myPoints[n].count - 1 {
+                myLine.addLine(to: .init(x: n * 30, y: Int(Points.myPoints[n][m]) - 150))
+            }
         }
-
         UIColor.red.setStroke()
         myLine.lineWidth = 2
         myLine.stroke()
