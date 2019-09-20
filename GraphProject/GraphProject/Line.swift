@@ -10,6 +10,15 @@ struct Points {
     static var myPoints = [[Float](), [Float](), [Float](), [Float](), [Float](), [Float](), [Float](), [Float]()]
 }
 
+struct Companies {
+    static var myComps = [0,0,0,0,0,0,0,0]
+    static var myCompNames = ["aapl", "msft", "csco", "c", "ndaq", "amd", "uber", "fb"]
+}
+
+struct Colors {
+    static var myColors = [/*green*/ UIColor(red: 0.180, green: 0.8, blue: 0.443, alpha: 1), /*blue*/ UIColor(red: 0.160, green: 0.501, blue: 0.725, alpha: 1), /*red*/  UIColor(red: 0.752, green: 0.223, blue: 0.168, alpha: 1), /*darkblue*/ UIColor(red: 0.172, green: 0.243,  blue: 0.313, alpha: 1), /*orange*/  UIColor(red: 0.952, green: 0.611, blue: 0.070, alpha: 1), /*concrete*/  UIColor(red: 0.584, green: 0.647, blue: 0.650, alpha: 1), /*purple*/  UIColor(red: 0.607, green: 0.349, blue: 0.713, alpha: 1), /*darkred*/  UIColor(red: 0.905, green: 0.298, blue: 0.235, alpha: 1)]
+}
+
 import UIKit
 import Foundation
 
@@ -22,73 +31,81 @@ class Line: UIView {
     // #2
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        setupView()
+        //setupView()
+        self.isOpaque = false
+        //self.backgroundColor = UIColor(red: 0.858, green: 0.203, blue: 0.270, alpha: 1)
+        self.backgroundColor = UIColor.white
     }
-    
-    // #3
-    public convenience init(image: UIImage, title: String) {
-        self.init(frame: .zero)
-    }
-    
-    private func setupView() {
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        // Create, add and layout the children views ..
-    }
-    
-   // var myPoints = [[CGFloat]]()
     
     // used Roberto Viana's youtube video https://www.youtube.com/watch?v=9sJxtzTo8W0 to learn how to use UIBezierPath and basic methods for drawing lines
    
-    var myLine = UIBezierPath()
-    var myLine2 = UIBezierPath()
-    var myLine3 = UIBezierPath()
-    var myLine4 = UIBezierPath()
-    var myLine5 = UIBezierPath()
-    var myLine6 = UIBezierPath()
-    var myLine7 = UIBezierPath()
-    var myLine8 = UIBezierPath()
+    let myLine = UIBezierPath()
+    let myLine2 = UIBezierPath()
+    let myLine3 = UIBezierPath()
+    let myLine4 = UIBezierPath()
+    let myLine5 = UIBezierPath()
+    let myLine6 = UIBezierPath()
+    let myLine7 = UIBezierPath()
+    let myLine8 = UIBezierPath()
     
     lazy var myLines = [myLine, myLine2, myLine3, myLine4, myLine5, myLine6, myLine7, myLine8]
     
+    let myGraphLine = UIBezierPath()
+    let myGraphLineThin = UIBezierPath()
+    
+    var circles = [[UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()]]
+    
     //TODO LIST:
-    //Probably change it so only Y is taken, rather than X and Y, as X will end up just being every day for stock market and thus will can just be bounds.width/myPoints.count
-    //Make JSON work, taking it from a URL, and use IEXCloud's API (https://iexcloud.io/console/tokens) to get data for each stock (Example for Apple stock of last month: https://cloud.iexapis.com/stable/stock/aapl/quote?token=sk_5b18d8815df14e43a9e8ba4f8ab693db
-    //Add 7 or so companies, such as Apple Microsoft etc. and make each a different color
-    //Add background which shows legend, x and y grid, etc
-    
-    
-    //This doesn't seem to be working. When I asked on a swift help IRC how to create a subview programmatically, they said this:
-    //Get an IBOutlet to a stack view that is where you want your thingie to be, create your view by calling init ( Line(), Line(frame: .zero) or whatever init you added), set all the properties you want, and then call stackView.addArrangedSubview(yourGraph), all on main thread
-    //Oh, and you might or might not have to set .translatesAutoresizingMaskToConstraints to false if you're making Line from code
-    func redraw() {
-        DispatchQueue.main.async {
-            print(self.bounds)
-            self.frame = CGRect(x: 100 , y: 100, width: 100, height: 100)
-            print(self.bounds)
-            self.setNeedsDisplay()
-        }
-    }
+    //Add labels for X and Y, possibly make it so when you click on a circle it shows you the Y value? (New view which would display the Y value, meaning abs(Int(Points.myPoints[n][m]) - 200)). Would have to store that information somewhere.
 
     func graph() {
-        //self.frame = CGRect(x: 100 , y: 100, width: 100, height: 100)
+        
+        for n in 0...7 {
+            UIColor(red: 0.886, green: 0.909, blue: 0.913, alpha: 1).setStroke()
+            myGraphLineThin.move(to: .init(x:0, y: n * Int(self.bounds.height) / 8))
+            myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: n * Int(self.bounds.height) / 8))
+            
+            for m in 0...Points.myPoints[0].count - 1 {
+                circles[n].append(UIBezierPath())
+            }
+        }
+        myGraphLine.stroke()
+        
+        myGraphLineThin.move(to: .init(x:0, y: 0))
+        myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: 0))
+        
+        
+        myGraphLineThin.move(to: .init(x:Int(self.bounds.width), y: 0))
+        myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: Int(self.bounds.height)))
+        myGraphLineThin.lineWidth = 1.5
+        myGraphLineThin.stroke()
         
         for n in 0...Points.myPoints.count-1 {
-            if(n==0) {UIColor.red.setStroke()}
-            else if(n==1) {UIColor.blue.setStroke()}
-            else if(n==2) {UIColor.green.setStroke()}
-            else if(n==3) {UIColor.white.setStroke()}
-            else if(n==4) {UIColor.brown.setStroke()}
-            else if(n==5) {UIColor.yellow.setStroke()}
-            else if(n==6) {UIColor.purple.setStroke()}
-            else if(n==7) {UIColor.cyan.setStroke()}
+            Colors.myColors[n].setStroke()
+            Colors.myColors[n].setFill()
             myLines[n].lineWidth = 2
             myLines[n].move(to: .init(x:0, y: abs(Int(Points.myPoints[n][0]) - 200)))
             for m in 1...Points.myPoints[n].count - 1 {
+                circles[n][m].lineWidth = 1
                 myLines[n].addLine(to: .init(x: m * 30, y: abs(Int(Points.myPoints[n][m]) - 200)))
+                circles[n][m] = UIBezierPath(ovalIn: CGRect(x: (m * 30) - 2,
+                                                         y: (abs(Int(Points.myPoints[n][m]) - 200)) - 2,
+                                                         width: 4,
+                                                         height: 4))
+                circles[n][m].fill()
+                circles[n][m].stroke()
             }
             myLines[n].stroke()
         }
+        UIColor.black.setStroke()
+        myGraphLine.move(to: .init(x:0, y: 0))
+        myGraphLine.addLine(to: .init(x: 0, y: Int(self.bounds.height)))
+        
+        
+        myGraphLine.move(to: .init(x:0, y: Int(self.bounds.height)))
+        myGraphLine.addLine(to: .init(x: Int(self.bounds.width), y: Int(self.bounds.height)))
+        myGraphLine.lineWidth = 3
+        myGraphLine.stroke()
     }
 
     override func draw(_ rect: CGRect) {
