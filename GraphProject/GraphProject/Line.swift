@@ -11,12 +11,11 @@ struct Points {
 }
 
 struct Companies {
-    static var myComps = [0,0,0,0,0,0,0,0]
-    static var myCompNames = ["aapl", "msft", "csco", "c", "ndaq", "amd", "uber", "fb"]
+    static var myCompNames = ["aapl", "fb", "msft", "ndaq", "c", "csco", "uber", "amd"]
 }
 
 struct Colors {
-    static var myColors = [/*green*/ UIColor(red: 0.180, green: 0.8, blue: 0.443, alpha: 1), /*blue*/ UIColor(red: 0.160, green: 0.501, blue: 0.725, alpha: 1), /*red*/  UIColor(red: 0.752, green: 0.223, blue: 0.168, alpha: 1), /*darkblue*/ UIColor(red: 0.172, green: 0.243,  blue: 0.313, alpha: 1), /*orange*/  UIColor(red: 0.952, green: 0.611, blue: 0.070, alpha: 1), /*concrete*/  UIColor(red: 0.584, green: 0.647, blue: 0.650, alpha: 1), /*purple*/  UIColor(red: 0.607, green: 0.349, blue: 0.713, alpha: 1), /*darkred*/  UIColor(red: 0.905, green: 0.298, blue: 0.235, alpha: 1)]
+    static var myColors = [/*green*/ UIColor(red: 0.180, green: 0.8, blue: 0.443, alpha: 1), /*blue*/ UIColor(red: 0.160, green: 0.501, blue: 0.725, alpha: 1), /*red*/  UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1), /*pink*/ UIColor(red: 0.941, green: 0.501, blue: 0.721, alpha: 1), /*orange*/  UIColor(red: 0.952, green: 0.611, blue: 0.070, alpha: 1), /*purple*/  UIColor(red: 0.607, green: 0.349, blue: 0.713, alpha: 1), /*darkred*/  UIColor(red: 0.843, green: 0.2, blue: 0.156, alpha: 1), /*seafoam*/  UIColor(red: 0.2, green: 0.8, blue: 0.8, alpha: 1)]
 }
 
 import UIKit
@@ -34,7 +33,7 @@ class Line: UIView {
         //setupView()
         self.isOpaque = false
         //self.backgroundColor = UIColor(red: 0.858, green: 0.203, blue: 0.270, alpha: 1)
-        self.backgroundColor = UIColor.white
+        //self.backgroundColor = UIColor.white
     }
     
     // used Roberto Viana's youtube video https://www.youtube.com/watch?v=9sJxtzTo8W0 to learn how to use UIBezierPath and basic methods for drawing lines
@@ -61,9 +60,10 @@ class Line: UIView {
     func graph() {
         
         for n in 0...7 {
-            UIColor(red: 0.886, green: 0.909, blue: 0.913, alpha: 1).setStroke()
-            myGraphLineThin.move(to: .init(x:0, y: n * Int(self.bounds.height) / 8))
-            myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: n * Int(self.bounds.height) / 8))
+            //UIColor(red: 0.886, green: 0.909, blue: 0.913, alpha: 1).setStroke()
+            UIColor(red: 0.635, green: 0.737, blue: 0.764, alpha: 1).setStroke()
+            myGraphLineThin.move(to: .init(x:0, y: n * Int(self.bounds.height) / 8 - 1))
+            myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: n * Int(self.bounds.height) / 8 - 1))
             
             for m in 0...Points.myPoints[0].count - 1 {
                 circles[n].append(UIBezierPath())
@@ -71,13 +71,13 @@ class Line: UIView {
         }
         myGraphLine.stroke()
         
-        myGraphLineThin.move(to: .init(x:0, y: 0))
-        myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: 0))
-        
-        
-        myGraphLineThin.move(to: .init(x:Int(self.bounds.width), y: 0))
-        myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: Int(self.bounds.height)))
-        myGraphLineThin.lineWidth = 1.5
+//        myGraphLineThin.move(to: .init(x:0, y: 0))
+//        myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: 0))
+//        
+//        
+//        myGraphLineThin.move(to: .init(x:Int(self.bounds.width), y: 0))
+//        myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: Int(self.bounds.height)))
+        myGraphLineThin.lineWidth = 1
         myGraphLineThin.stroke()
         
         for n in 0...Points.myPoints.count-1 {
@@ -97,19 +97,18 @@ class Line: UIView {
             }
             myLines[n].stroke()
         }
-        UIColor.black.setStroke()
-        myGraphLine.move(to: .init(x:0, y: 0))
-        myGraphLine.addLine(to: .init(x: 0, y: Int(self.bounds.height)))
+        UIColor(red: 0.635, green: 0.737, blue: 0.764, alpha: 1).setStroke()
+        myGraphLine.move(to: .init(x:1, y: 0))
+        myGraphLine.addLine(to: .init(x: 1, y: Int(self.bounds.height)))
         
         
-        myGraphLine.move(to: .init(x:0, y: Int(self.bounds.height)))
-        myGraphLine.addLine(to: .init(x: Int(self.bounds.width), y: Int(self.bounds.height)))
-        myGraphLine.lineWidth = 3
+        myGraphLine.move(to: .init(x:0, y: Int(self.bounds.height) - 1))
+        myGraphLine.addLine(to: .init(x: Int(self.bounds.width), y: Int(self.bounds.height) - 1))
+        myGraphLine.lineWidth = 1
         myGraphLine.stroke()
     }
 
     override func draw(_ rect: CGRect) {
-        print("wow")
         self.graph()
     }
 }

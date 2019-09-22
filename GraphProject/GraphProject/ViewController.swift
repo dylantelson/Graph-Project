@@ -56,6 +56,12 @@ class ViewController: UIViewController {
             counterForJSON+=1
         }
         
+        while(Points.myPoints[0].count < 6 || Points.myPoints[1].count < 6 || Points.myPoints[2].count < 6 || Points.myPoints[3].count < 6 || Points.myPoints[4].count < 6 || Points.myPoints[5].count < 6 || Points.myPoints[6].count < 6 || Points.myPoints[7].count < 6) {
+            
+        }
+        
+        Points.myPoints.sort { $1[0] < $0[0] }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             let myLine = Line(frame: CGRect(x: UIScreen.main.bounds.width/4 - 25, y: UIScreen.main.bounds.height/4 - 25, width: UIScreen.main.bounds.width/2 + 50, height: UIScreen.main.bounds.height/2 + 50))
             self.view.addSubview(myLine)
@@ -76,8 +82,6 @@ class ViewController: UIViewController {
         
         guard let url = URL(string: urlString) else { return }
         
-        let currCounter = counterForJSON
-        
         URLSession.shared.dataTask(with:url) { (data, response, err) in
             
             if let err = err {
@@ -92,7 +96,7 @@ class ViewController: UIViewController {
             } catch let jsonError {
                 completion(nil, jsonError)
             }
-            Companies.myComps[self.counterForJSON2] = currCounter
+            //Companies.myComps[self.counterForJSON2] = currCounter
             self.counterForJSON2 += 1
         }.resume()
     }

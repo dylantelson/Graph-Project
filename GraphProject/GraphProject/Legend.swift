@@ -32,17 +32,16 @@ class Legend: UIView {
         }
         
         for n in 0...7 {
-            labels[n] = UILabel(frame: CGRect(x: 55, y: Int(self.bounds.height) / 8 * n + 3, width: 100, height: 15))
+            labels[n] = UILabel(frame: CGRect(x: 55, y: Int(self.bounds.height) / 8 * n + 2, width: 100, height: 15))
             self.addSubview(labels[n])
-            print(Companies.myCompNames[Companies.myComps[n]])
-            labels[n].text = Companies.myCompNames[Companies.myComps[n]]
+            labels[n].text = Companies.myCompNames[n]
             labels[n].textColor = UIColor.black
-            labels[n].font = UIFont .systemFont(ofSize: 9.0, weight: UIFont.Weight(rawValue: 0.4))
+            labels[n].font = UIFont(name: "Helvetica", size: 9.0)
             labels[n].textAlignment = NSTextAlignment.left
             labels[n].layer.borderColor = UIColor.clear.cgColor
-            circles[n].lineWidth = 0.3
+            circles[n].lineWidth = 0.1
             Colors.myColors[n].setFill()
-            UIColor.black.setStroke()
+            UIColor.clear.setStroke()
             circles[n] = UIBezierPath(ovalIn: CGRect(x: 40,
                                                     y: 5 + Int(self.bounds.height) / 8 * n,
                                                     width: 10,
