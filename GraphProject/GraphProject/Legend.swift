@@ -16,7 +16,6 @@ class Legend: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         self.isOpaque = false
-        //self.backgroundColor = UIColor(red: 0.858, green: 0.203, blue: 0.270, alpha: 1)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -31,8 +30,8 @@ class Legend: UIView {
             labels.append(UILabel())
         }
         
-        for n in 0...7 {
-            labels[n] = UILabel(frame: CGRect(x: 55, y: Int(self.bounds.height) / 8 * n + 2, width: 100, height: 15))
+        for n in 0...Points.myPoints.count - 1 {
+            labels[n] = UILabel(frame: CGRect(x: 55, y: Int(self.bounds.height) / Points.myPoints.count * n + 2, width: 100, height: 15))
             self.addSubview(labels[n])
             labels[n].text = Companies.myCompNames[n]
             labels[n].textColor = UIColor.black
@@ -43,7 +42,7 @@ class Legend: UIView {
             Colors.myColors[n].setFill()
             UIColor.clear.setStroke()
             circles[n] = UIBezierPath(ovalIn: CGRect(x: 40,
-                                                    y: 5 + Int(self.bounds.height) / 8 * n,
+                                                    y: 5 + Int(self.bounds.height) / 9 * n,
                                                     width: 10,
                                                     height: 10))
             circles[n].fill()

@@ -7,15 +7,15 @@
 //
 
 struct Points {
-    static var myPoints = [[Float](), [Float](), [Float](), [Float](), [Float](), [Float](), [Float](), [Float]()]
+    static var myPoints = [[Float](), [Float](), [Float](), [Float](), [Float](), [Float](), [Float](), [Float](), [Float]()]
 }
 
 struct Companies {
-    static var myCompNames = ["aapl", "fb", "msft", "ndaq", "c", "csco", "uber", "amd"]
+    static var myCompNames = ["nflx", "aapl", "fb", "msft", "ndaq", "c", "csco", "uber", "amd"]
 }
 
 struct Colors {
-    static var myColors = [/*green*/ UIColor(red: 0.180, green: 0.8, blue: 0.443, alpha: 1), /*blue*/ UIColor(red: 0.160, green: 0.501, blue: 0.725, alpha: 1), /*red*/  UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1), /*pink*/ UIColor(red: 0.941, green: 0.501, blue: 0.721, alpha: 1), /*orange*/  UIColor(red: 0.952, green: 0.611, blue: 0.070, alpha: 1), /*purple*/  UIColor(red: 0.607, green: 0.349, blue: 0.713, alpha: 1), /*darkred*/  UIColor(red: 0.843, green: 0.2, blue: 0.156, alpha: 1), /*seafoam*/  UIColor(red: 0.2, green: 0.8, blue: 0.8, alpha: 1)]
+    static var myColors = [/*/ darkgreen */ UIColor(red: 0.2, green: 0.4, blue: 0, alpha: 1), /*green*/ UIColor(red: 0.180, green: 0.8, blue: 0.443, alpha: 1), /*blue*/ UIColor(red: 0.160, green: 0.501, blue: 0.725, alpha: 1), /*red*/  UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1), /*pink*/ UIColor(red: 0.941, green: 0.501, blue: 0.721, alpha: 1), /*orange*/  UIColor(red: 0.952, green: 0.611, blue: 0.070, alpha: 1), /*purple*/  UIColor(red: 0.607, green: 0.349, blue: 0.713, alpha: 1), /*darkred*/  UIColor(red: 0.843, green: 0.2, blue: 0.156, alpha: 1), /*seafoam*/  UIColor(red: 0.2, green: 0.8, blue: 0.8, alpha: 1)]
 }
 
 import UIKit
@@ -46,50 +46,56 @@ class Line: UIView {
     let myLine6 = UIBezierPath()
     let myLine7 = UIBezierPath()
     let myLine8 = UIBezierPath()
+    let myLine9 = UIBezierPath()
     
-    lazy var myLines = [myLine, myLine2, myLine3, myLine4, myLine5, myLine6, myLine7, myLine8]
+    lazy var myLines = [myLine, myLine2, myLine3, myLine4, myLine5, myLine6, myLine7, myLine8, myLine9]
     
     let myGraphLine = UIBezierPath()
     let myGraphLineThin = UIBezierPath()
     
-    var circles = [[UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()]]
+    var circles = [[UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()], [UIBezierPath()]]
     
     //TODO LIST:
     //Add labels for X and Y, possibly make it so when you click on a circle it shows you the Y value? (New view which would display the Y value, meaning abs(Int(Points.myPoints[n][m]) - 200)). Would have to store that information somewhere.
 
     func graph() {
         
-        for n in 0...7 {
-            //UIColor(red: 0.886, green: 0.909, blue: 0.913, alpha: 1).setStroke()
+        for n in 0...6 {
             UIColor(red: 0.635, green: 0.737, blue: 0.764, alpha: 1).setStroke()
-            myGraphLineThin.move(to: .init(x:0, y: n * Int(self.bounds.height) / 8 - 1))
-            myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: n * Int(self.bounds.height) / 8 - 1))
+                myGraphLineThin.move(to: .init(x:23, y: (3+n) * Int(self.bounds.height) / 8 - 1))
+                myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width) - 6, y: (3+n) * Int(self.bounds.height) / 8 - 1))
             
-            for m in 0...Points.myPoints[0].count - 1 {
+            if(n < 7) {
+                let currentLabel = UILabel(frame: CGRect(x: 0, y: abs((n * Int(self.bounds.height) / 8) - Int(self.bounds.height)) - 14, width: 20, height: 20))
+                self.addSubview(currentLabel)
+                currentLabel.text = String(n * Int(self.bounds.height) / 8)
+                currentLabel.textColor =  UIColor(red: 0.635, green: 0.737, blue: 0.764, alpha: 1)
+                currentLabel.font = UIFont(name: "Helvetica", size: 9.0)
+                currentLabel.textAlignment = NSTextAlignment.right
+                currentLabel.layer.borderColor = UIColor.clear.cgColor
+            }
+        }
+        
+        for n in 0...Points.myPoints.count - 1 {
+            for _ in 0...Points.myPoints[0].count - 1 {
                 circles[n].append(UIBezierPath())
             }
         }
         myGraphLine.stroke()
-        
-//        myGraphLineThin.move(to: .init(x:0, y: 0))
-//        myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: 0))
-//        
-//        
-//        myGraphLineThin.move(to: .init(x:Int(self.bounds.width), y: 0))
-//        myGraphLineThin.addLine(to: .init(x: Int(self.bounds.width), y: Int(self.bounds.height)))
+
         myGraphLineThin.lineWidth = 1
         myGraphLineThin.stroke()
-        
+        print(Points.myPoints[0].count)
         for n in 0...Points.myPoints.count-1 {
             Colors.myColors[n].setStroke()
             Colors.myColors[n].setFill()
             myLines[n].lineWidth = 2
-            myLines[n].move(to: .init(x:0, y: abs(Int(Points.myPoints[n][0]) - 200)))
+            myLines[n].move(to: .init(x:23, y: abs(Int(Points.myPoints[n][0]) - Int(self.bounds.height))))
             for m in 1...Points.myPoints[n].count - 1 {
                 circles[n][m].lineWidth = 1
-                myLines[n].addLine(to: .init(x: m * 30, y: abs(Int(Points.myPoints[n][m]) - 200)))
-                circles[n][m] = UIBezierPath(ovalIn: CGRect(x: (m * 30) - 2,
-                                                         y: (abs(Int(Points.myPoints[n][m]) - 200)) - 2,
+                myLines[n].addLine(to: .init(x: 23 + m * 27, y: abs(Int(Points.myPoints[n][m]) - Int(self.bounds.height))))
+                circles[n][m] = UIBezierPath(ovalIn: CGRect(x: 23 + (m * 27) - 2,
+                                                         y: (abs(Int(Points.myPoints[n][m]) - Int(self.bounds.height))) - 2,
                                                          width: 4,
                                                          height: 4))
                 circles[n][m].fill()
@@ -98,12 +104,9 @@ class Line: UIView {
             myLines[n].stroke()
         }
         UIColor(red: 0.635, green: 0.737, blue: 0.764, alpha: 1).setStroke()
-        myGraphLine.move(to: .init(x:1, y: 0))
-        myGraphLine.addLine(to: .init(x: 1, y: Int(self.bounds.height)))
+        myGraphLine.move(to: .init(x:24, y: Int(self.bounds.height) * 2/8))
+        myGraphLine.addLine(to: .init(x: 24, y: Int(self.bounds.height)))
         
-        
-        myGraphLine.move(to: .init(x:0, y: Int(self.bounds.height) - 1))
-        myGraphLine.addLine(to: .init(x: Int(self.bounds.width), y: Int(self.bounds.height) - 1))
         myGraphLine.lineWidth = 1
         myGraphLine.stroke()
     }
