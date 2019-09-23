@@ -8,10 +8,16 @@
 
 import UIKit
 
+struct currCompSelected {
+    static var curr = 0
+}
+
 class Legend: UIView {
     
     var circles = [UIBezierPath()]
     var labels = [UILabel()]
+    
+    let myVC = ViewController()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,6 +39,7 @@ class Legend: UIView {
         for n in 0...Points.myPoints.count - 1 {
             labels[n] = UILabel(frame: CGRect(x: 55, y: Int(self.bounds.height) / Points.myPoints.count * n + 2, width: 100, height: 15))
             self.addSubview(labels[n])
+            labels[n].isUserInteractionEnabled = true
             labels[n].text = Companies.myCompNames[n]
             labels[n].textColor = UIColor.black
             labels[n].font = UIFont(name: "Helvetica", size: 9.0)
@@ -48,6 +55,48 @@ class Legend: UIView {
             circles[n].fill()
             circles[n].stroke()
         }
+        let gestureRecognizer1 = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(handleTap2))
+        let gestureRecognizer3 = UITapGestureRecognizer(target: self, action: #selector(handleTap3))
+        let gestureRecognizer4 = UITapGestureRecognizer(target: self, action: #selector(handleTap4))
+        let gestureRecognizer5 = UITapGestureRecognizer(target: self, action: #selector(handleTap5))
+        let gestureRecognizer6 = UITapGestureRecognizer(target: self, action: #selector(handleTap6))
+        let gestureRecognizer7 = UITapGestureRecognizer(target: self, action: #selector(handleTap7))
+        let gestureRecognizer8 = UITapGestureRecognizer(target: self, action: #selector(handleTap8))
+        let gestureRecognizer9 = UITapGestureRecognizer(target: self, action: #selector(handleTap9))
+        
+        labels[0].addGestureRecognizer(gestureRecognizer1)
+        labels[1].addGestureRecognizer(gestureRecognizer2)
+        labels[2].addGestureRecognizer(gestureRecognizer3)
+        labels[3].addGestureRecognizer(gestureRecognizer4)
+        labels[4].addGestureRecognizer(gestureRecognizer5)
+        labels[5].addGestureRecognizer(gestureRecognizer6)
+        labels[6].addGestureRecognizer(gestureRecognizer7)
+        labels[7].addGestureRecognizer(gestureRecognizer8)
+        labels[8].addGestureRecognizer(gestureRecognizer9)
+    }
+    
+    @objc func handleTap(gestureRecognizer: UIGestureRecognizer) {
+        currCompSelected.curr = 0
+    }
+    @objc func handleTap2(gestureRecognizer: UIGestureRecognizer) {
+        currCompSelected.curr = 1    }
+    @objc func handleTap3(gestureRecognizer: UIGestureRecognizer) {
+        currCompSelected.curr = 2    }
+    @objc func handleTap4(gestureRecognizer: UIGestureRecognizer) {
+        currCompSelected.curr = 3    }
+    @objc func handleTap5(gestureRecognizer: UIGestureRecognizer) {
+        currCompSelected.curr = 4    }
+    @objc func handleTap6(gestureRecognizer: UIGestureRecognizer) {
+        currCompSelected.curr = 5    }
+    @objc func handleTap7(gestureRecognizer: UIGestureRecognizer) {
+        currCompSelected.curr = 6
+    }
+    @objc func handleTap8(gestureRecognizer: UIGestureRecognizer) {
+        currCompSelected.curr = 7
+    }
+    @objc func handleTap9(gestureRecognizer: UIGestureRecognizer) {
+        currCompSelected.curr = 8
     }
 
 }

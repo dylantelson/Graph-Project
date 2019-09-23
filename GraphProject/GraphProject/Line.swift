@@ -18,6 +18,10 @@ struct Colors {
     static var myColors = [/*/ darkgreen */ UIColor(red: 0.2, green: 0.4, blue: 0, alpha: 1), /*green*/ UIColor(red: 0.180, green: 0.8, blue: 0.443, alpha: 1), /*blue*/ UIColor(red: 0.160, green: 0.501, blue: 0.725, alpha: 1), /*red*/  UIColor(red: 1, green: 0.478, blue: 0.478, alpha: 1), /*pink*/ UIColor(red: 0.941, green: 0.501, blue: 0.721, alpha: 1), /*orange*/  UIColor(red: 0.952, green: 0.611, blue: 0.070, alpha: 1), /*purple*/  UIColor(red: 0.607, green: 0.349, blue: 0.713, alpha: 1), /*darkred*/  UIColor(red: 0.843, green: 0.2, blue: 0.156, alpha: 1), /*seafoam*/  UIColor(red: 0.2, green: 0.8, blue: 0.8, alpha: 1)]
 }
 
+struct ShouldShow {
+    static var toShow : [Bool] = [true, true, true, true, true, true, true, true, true]
+}
+
 import UIKit
 import Foundation
 
@@ -25,6 +29,7 @@ class Line: UIView {
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        self.tag = 123123
     }
     
     // #2
@@ -32,6 +37,7 @@ class Line: UIView {
         super.init(frame: frame)
         //setupView()
         self.isOpaque = false
+        self.tag = 123123
         //self.backgroundColor = UIColor(red: 0.858, green: 0.203, blue: 0.270, alpha: 1)
         //self.backgroundColor = UIColor.white
     }
@@ -57,7 +63,7 @@ class Line: UIView {
     
     //TODO LIST:
     //Add labels for X and Y, possibly make it so when you click on a circle it shows you the Y value? (New view which would display the Y value, meaning abs(Int(Points.myPoints[n][m]) - 200)). Would have to store that information somewhere.
-
+    
     func graph() {
         
         for n in 0...6 {
@@ -85,10 +91,14 @@ class Line: UIView {
 
         myGraphLineThin.lineWidth = 1
         myGraphLineThin.stroke()
-        print(Points.myPoints[0].count)
         for n in 0...Points.myPoints.count-1 {
-            Colors.myColors[n].setStroke()
-            Colors.myColors[n].setFill()
+            if(ShouldShow.toShow[n] == true) {
+                Colors.myColors[n].setStroke()
+                Colors.myColors[n].setFill()
+            } else {
+                UIColor.clear.setStroke()
+                UIColor.clear.setFill()
+            }
             myLines[n].lineWidth = 2
             myLines[n].move(to: .init(x:23, y: abs(Int(Points.myPoints[n][0]) - Int(self.bounds.height))))
             for m in 1...Points.myPoints[n].count - 1 {
