@@ -18,6 +18,9 @@ https://www.codzify.com/swiftIOS/swift_UILabel Used this to learn how to add UIL
 https://iexcloud.io/ This is the API I used to get the stock data
 https://stackoverflow.com/questions/31090983/how-do-i-change-the-font-of-a-uilabel-in-swift-without-changing-the-font-size This helped me change the font programmatically for the loading text
 https://stackoverflow.com/questions/50033226/swift-4-sorting-multidimensional-array I used this to learn how to sort a 2DArray
+https://www.youtube.com/watch?v=xpTGEoUMiOE This was used to learn how to design buttons
+https://www.youtube.com/watch?v=0Bgmw9gPOgI This was used to learn how to use @IBOutlet and @IBAction
+
 
 Most of the work of the project was making the API work, then figure out how to make the design look good (design is one of my weaknesses). I learned a lot about XCode and Swift through this project, as before I had only followed a few tutorials in my spare time and never really programmed my own app. It also strengthened my grasp on a few concepts, such as 2DArrays, JSON parsing, Swift's UIBezierPath(), and the way classes work in XCode. I still haven't figured out how to make it work well on multiple devices, so it is optimized for the iPhone XR and objects will look out of place on different devices.
 
